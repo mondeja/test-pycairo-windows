@@ -35,6 +35,6 @@ jobs:
       - name: Upload examples results
         uses: actions/upload-artifact@v2
         with:
-          name: examples
+          name: examples-v${{ matrix.python-version }}
           path: gizeh/examples/*.png
       
