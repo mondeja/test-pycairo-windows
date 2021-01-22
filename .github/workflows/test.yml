@@ -1,4 +1,4 @@
-name: CI
+name: Test PyCairo in Windows
 
 on:
   workflow_dispatch:
@@ -29,7 +29,7 @@ jobs:
           python -m pip install -e .
       - name: Test
         run: |
-          cd examples
+          cd gizeh/examples
           python _run_all_examples.py
       - name: Upload examples results
         uses: shogo82148/actions-upload-release-asset@v1.2.3
