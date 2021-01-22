@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        python-version:
+          - 3.6
+          - 3.7
+          - 3.8
+          - 3.9
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python v${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        run: |
+          pip install virtualenv
+          git clone https://github.com/Zulko/gizeh.git
+          cd gizeh
+          python -m virtualenv venv
+          . venv/bin/activate
+          sed -i 's/cairocffi as cairo/cairo/g' gizeh/gizeh.py
+          sed -i 's/cairocffi/pycairo>=1.20.0/g' setup.py
+          python -m pip install -e .
+      - name: Test
+        run: |
+          cd examples
+          python _run_all_examples.py
+      - name: Upload examples results
+        uses: shogo82148/actions-upload-release-asset@v1.2.3
+        with:
+          asset_path: examples/*.png
+      
