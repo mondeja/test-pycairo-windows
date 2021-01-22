@@ -22,11 +22,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: |
-          pip install virtualenv
-          git clone https://github.com/Zulko/gizeh.git
+          git clone https://github.com/Zulko/gizeh.git --depth=1
           cd gizeh
-          python -m virtualenv venv
-          . venv/bin/activate
           sed -i 's/cairocffi as cairo/cairo/g' gizeh/gizeh.py
           sed -i 's/cairocffi/pycairo>=1.20.0/g' setup.py
           python -m pip install -e .
