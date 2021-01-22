@@ -32,7 +32,8 @@ jobs:
           cd gizeh/examples
           python _run_all_examples.py
       - name: Upload examples results
-        uses: shogo82148/actions-upload-release-asset@v1.2.3
+        uses: actions/upload-artifact@v2
         with:
-          asset_path: examples/*.png
+          name: examples
+          path: gizeh/examples/*.png
       
